@@ -1,0 +1,7 @@
+# Arquivos sensíveis que não devem ser acessíveis
+static/cert/idp.key
+static/cert/idp.crt
+.env
+*.log
+__pycache__/
+*.pyc

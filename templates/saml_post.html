@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecionando para AWS...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #232f3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        p {
+            color: #ccc;
+            font-size: 14px;
+        }
+        .aws-logo {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="aws-logo">.AWS</div>
+        <div class="spinner"></div>
+        <h2>Redirecionando para o Console AWS...</h2>
+        <p>Aguarde enquanto autenticamos sua sessão</p>
+    </div>
+    
+    <!-- Formulário oculto que será submetido automaticamente -->
+    <form id="samlForm" method="POST" action="{{ aws_endpoint }}">
+        <input type="hidden" name="SAMLResponse" value="{{ saml_response }}">
+        <input type="hidden" name="RelayState" value="{{ relay_state }}">
+    </form>
+    
+    <script>
+        // Submeter o formulário automaticamente após carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('samlForm').submit();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
