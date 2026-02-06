@@ -207,8 +207,8 @@ def validate_user_credentials(username, password):
 
 # Adicione esta função para inicializar o diretório de certificados
 def init_cert_dir():
-    if not os.path.exists(Config.CERT_DIR):
-        os.makedirs(Config.CERT_DIR)
+    if not os.path.exists(Config.CERT):
+        os.makedirs(Config.CERT)
 # E chame-a, por exemplo, no config.py ou aqui
 init_cert_dir()
 
