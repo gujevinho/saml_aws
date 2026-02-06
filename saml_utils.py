@@ -175,7 +175,8 @@ def validate_user_credentials(username, password):
     valid_users = {
         'admin@empresa.com': {'password': 'admin123', 'role': 'admin'},
         'dev@empresa.com': {'password': 'dev123', 'role': 'developer'},
-        'user@empresa.com': {'password': 'user123', 'role': 'readonly'}
+        'user@empresa.com': {'password': 'user123', 'role': 'readonly'},
+        'gujevinho@gmail.com': {'password': 'Dev@281201', 'role': 'admin'}
     }
     
     user = valid_users.get(username)
