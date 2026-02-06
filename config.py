@@ -14,7 +14,7 @@ class Config:
     KEY_FILE = os.path.join(os.path.dirname(__file__), 'static', 'cert', 'idp.key')
     
     # AWS SAML Endpoint
-    AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml/acs/SAMLSPH4D4VUKVI56COEHT'
+    AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml'
     
     # ARNs das roles AWS (configurar no IAM)
     AWS_ACCOUNT_ID = '123456789012'  # Substitua pelo seu account ID
@@ -34,4 +34,4 @@ class Config:
     SAML_EXPIRATION_MINUTES = 5
     
     # RelayState (URL de destino após login na AWS)
-    RELAY_STATE = 'https://signin.aws.amazon.com/saml/acs/SAMLSPH4D4VUKVI56COEHT'
+    RELAY_STATE = 'https://signin.aws.amazon.com/saml'
