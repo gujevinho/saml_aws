@@ -101,7 +101,7 @@ class SAMLResponseGenerator:
         <saml:AttributeStatement>
             <saml:Attribute Name="https://aws.amazon.com/SAML/Attributes/Role">
                 <saml:AttributeValue xsi:type="xs:string">
-                    {role_arn},{saml_provider_arn}
+                    {role_arn},{self.config.IDP_ENTITY_ID}
                 </saml:AttributeValue>
             </saml:Attribute>
             <saml:Attribute Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName">

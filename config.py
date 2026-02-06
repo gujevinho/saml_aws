@@ -8,7 +8,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
     
     # Configurações SAML IdP
-    IDP_ENTITY_ID = 'arn:aws:iam::058264482789:saml-provider/Face'
+    IDP_ENTITY_ID = 'urn:amazon:webservices'
     IDP_NAME = 'AWS-SAML-IdP'
     
     # Certificado e chave (gerar com OpenSSL)
