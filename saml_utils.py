@@ -12,8 +12,10 @@ class SAMLResponseGenerator:
     """Gera SAML Response para autenticação AWS"""
 
     def __init__(self):
+
         self.config = Config()
-        Config.init_cert_dir()
+        # Chama a função para garantir que o diretório existe
+        Config.ensure_cert_dir_exists()
 
         # Verificar e gerar certificados se não existirem
         if not os.path.exists(self.config.CERT_FILE) or not os.path.exists(self.config.KEY_FILE):

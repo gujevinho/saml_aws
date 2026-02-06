@@ -6,7 +6,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
     
     # Configurações SAML IdP
-    IDP_ENTITY_ID = 'arn:aws:iam::058264482789:role/Face_aws'
+    IDP_ENTITY_ID = 'urn:amazon:webservices'
     IDP_NAME = 'AWS-SAML-IdP'
     
     # Certificado e chave (gerar com OpenSSL)
@@ -17,8 +17,12 @@ class Config:
     AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml'
     
     # ARNs das roles AWS (configurar no IAM)
-    AWS_ACCOUNT_ID = '058264482789'  # Substitua pelo seu account ID
-    SAML_PROVIDER_NAME = 'Face'  # Nome do SAML Provider no IAM
+    #AWS_ACCOUNT_ID = '058264482789'  # Substitua pelo seu account ID
+    #SAML_PROVIDER_NAME = 'Face'  # Nome do SAML Provider no IAM
+
+        # ARNs das roles AWS (configurar no IAM)
+    AWS_ACCOUNT_ID = os.environ.get('AWS_ACCOUNT_ID', '058264482789')
+    SAML_PROVIDER_NAME = os.environ.get('SAML_PROVIDER_NAME', 'Face')
     
     # Mapeamento de usuários para roles
     ROLE_MAPPINGS = {
@@ -35,3 +39,10 @@ class Config:
     
     # RelayState (URL de destino após login na AWS)
     RELAY_STATE = 'https://signin.aws.amazon.com/saml'
+
+        # Verificar se diretório de certificados existe (função utilitária)
+    @staticmethod
+    def ensure_cert_dir_exists():
+        if not os.path.exists(Config.CERT_DIR):
+            os.makedirs(Config.CERT_DIR, exist_ok=True)
+            print(f"Diretório de certificados criado: {Config.CERT_DIR}")
