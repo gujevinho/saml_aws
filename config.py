@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timedelta
 
-from saml_utils import init_cert_dir
+#from saml_utils import init_cert_dir
 
 class Config:
     # Chave secreta do Flask
@@ -50,4 +50,4 @@ class Config:
             print(f"Diretório de certificados criado: {Config.CERT_DIR}")
 
 # E chame-a, por exemplo, no config.py ou aqui
-    init_cert_dir() 
+ #   init_cert_dir() 
