@@ -28,7 +28,7 @@ class Config:
     
     # Mapeamento de usuários para roles
     ROLE_MAPPINGS = {
-        'admin': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face_aws',
+        'admin': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face',
         'readonly': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-ReadOnlyRole',
         'developer': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-DeveloperRole'
     }
