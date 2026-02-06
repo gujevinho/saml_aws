@@ -53,7 +53,7 @@
     </div>
     
     <!-- Formulário oculto que será submetido automaticamente -->
-    <form id="samlForm" method="POST" action="{{ AWS_SAML_ENDPOINT }}">
+    <form id="samlForm" method="POST" action="{{ aws_endpoint }}" >
         <input type="hidden" name="SAMLResponse" value="{{ saml_response }}">
         <input type="hidden" name="RelayState" value="{{ relay_state }}">
     </form>
