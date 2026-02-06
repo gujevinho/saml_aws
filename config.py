@@ -1,6 +1,8 @@
 import os
 from datetime import datetime, timedelta
 
+from saml_utils import init_cert_dir
+
 class Config:
     # Chave secreta do Flask
     SECRET_KEY = os.environ.get('SECRET_KEY', 'sua-chave-secreta-aqui')
@@ -46,3 +48,6 @@ class Config:
         if not os.path.exists(Config.CERT_DIR):
             os.makedirs(Config.CERT_DIR, exist_ok=True)
             print(f"Diretório de certificados criado: {Config.CERT_DIR}")
+
+# E chame-a, por exemplo, no config.py ou aqui
+    init_cert_dir() 
