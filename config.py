@@ -10,7 +10,7 @@ class Config:
     IDP_NAME = 'AWS-SAML-IdP'
     
     # Certificado e chave (gerar com OpenSSL)
-    CERT_FILE = os.path.join(os.path.dirname(__file__), 'static', 'cert', 'idp.crt')
+    CERT_FILE = os.path.join(os.path.dirname(__file__), 'static', 'cert', 'idp.cer')
     KEY_FILE = os.path.join(os.path.dirname(__file__), 'static', 'cert', 'idp.key')
     
     # AWS SAML Endpoint
