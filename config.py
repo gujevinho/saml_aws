@@ -17,12 +17,12 @@ class Config:
     AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml'
     
     # ARNs das roles AWS (configurar no IAM)
-    AWS_ACCOUNT_ID = '123456789012'  # Substitua pelo seu account ID
-    SAML_PROVIDER_NAME = 'MeuSAMLProvider'  # Nome do SAML Provider no IAM
+    AWS_ACCOUNT_ID = '058264482789'  # Substitua pelo seu account ID
+    SAML_PROVIDER_NAME = 'Face'  # Nome do SAML Provider no IAM
     
     # Mapeamento de usuários para roles
     ROLE_MAPPINGS = {
-        'admin': f'arn:aws:iam::058264482789:role/Face_aws',
+        'admin': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face_aws',
         'readonly': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-ReadOnlyRole',
         'developer': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-DeveloperRole'
     }
