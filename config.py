@@ -30,8 +30,14 @@ class Config:
     # Mapeamento de usuários para roles
     ROLE_MAPPINGS = {
         'admin': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face',
-        'readonly': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-ReadOnlyRole',
-        'developer': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/AWS-DeveloperRole'
+        'readonly': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face',
+        'developer': f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/Face'
+    }
+
+    ROLE2_MAPPINGS = {
+        'admin': f'arn:aws:iam::{AWS_ACCOUNT_ID}:saml-provider/Face',
+        'readonly': f'arn:aws:iam::{AWS_ACCOUNT_ID}::saml-provider/Face',
+        'developer': f'arn:aws:iam::{AWS_ACCOUNT_ID}::saml-provider/Face'
     }
     
     # URL base da aplicação

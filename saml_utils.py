@@ -8,8 +8,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class SAMLResponseGenerator:
-    """Gera SAML Response para autenticação AWS"""
+class saml2ResponseGenerator:
+    """Gera saml2 Response para autenticação AWS"""
 
     def __init__(self):
         self.config = Config()
@@ -31,9 +31,9 @@ class SAMLResponseGenerator:
         except FileNotFoundError:
             raise Exception("Certificados não encontrados. Execute setup_certificates() primeiro.")
 
-    def generate_saml_response(self, username, role_arn, session_name=None):
+    def generate_saml2_response(self, username, role_arn, session_name=None):
         """
-        Gera um SAML Response válido para AWS
+        Gera um saml2 Response válido para AWS
 
         Args:
             username: Nome do usuário
@@ -41,7 +41,7 @@ class SAMLResponseGenerator:
             session_name: Nome da sessão (opcional)
 
         Returns:
-            SAML Response codificado em base64
+            saml2 Response codificado em base64
         """
         if session_name is None:
             session_name = username
@@ -50,77 +50,77 @@ class SAMLResponseGenerator:
         issue_instant = datetime.utcnow()
         assertion_id = f'_uuid-{uuid.uuid4()}'
         response_id = f'_uuid-{uuid.uuid4()}'
-        issuer = self.config.SAML_PROVIDER_NAME
+        issuer = self.config.saml2_PROVIDER_NAME
 
-        # Gerar SAML Provider ARN
-        saml_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml-provider/{issuer}'
+        # Gerar saml2 Provider ARN
+        saml2_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml2-provider/{issuer}'
 
-        # Template SAML Response (sem assinatura para simplificação inicial)
-        saml_template = f"""<?xml version="1.0" encoding="UTF-8"?>
-<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
-                xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+        # Template saml2 Response (sem assinatura para simplificação inicial)
+        saml2_template = f"""<?xml version="1.0" encoding="UTF-8"?>
+<saml2p:Response xmlns:saml2p="urn:oasis:names:tc:saml2:2.0:protocol"
+                xmlns:saml2="urn:oasis:names:tc:saml2:2.0:assertion"
                 ID="{response_id}"
                 Version="2.0"
                 IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
-    <saml:Issuer>{self.config.IDP_ENTITY_ID}</saml:Issuer>
-    <samlp:Status>
-        <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
-    </samlp:Status>
-    <saml:Assertion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <saml2:Issuer>{self.config.IDP_ENTITY_ID}</saml2:Issuer>
+    <saml2p:Status>
+        <saml2p:StatusCode Value="urn:oasis:names:tc:saml2:2.0:status:Success"/>
+    </saml2p:Status>
+    <saml2:Assertion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                    ID="{assertion_id}"
                    Version="2.0"
                    IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
-        <saml:Issuer>{self.config.IDP_ENTITY_ID}</saml:Issuer>
-        <saml:Subject>
-            <saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress">
+        <saml2:Issuer>{self.config.IDP_ENTITY_ID}</saml2:Issuer>
+        <saml2:Subject>
+            <saml2:NameID Format="urn:oasis:names:tc:saml2:2.0:nameid-format:persistent">
                 {username}
-            </saml:NameID>
-            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
-                <saml:SubjectConfirmationData
-                    NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
-                    Recipient="{self.config.AWS_SAML_ENDPOINT}"/>
-            </saml:SubjectConfirmation>
-        </saml:Subject>
-        <saml:Conditions
+            </saml2:NameID>
+            <saml2:SubjectConfirmation Method="urn:oasis:names:tc:saml2:2.0:cm:bearer">
+                <saml2:SubjectConfirmationData
+                    NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.saml2_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
+                    Recipient="{self.config.AWS_saml2_ENDPOINT}"/>
+            </saml2:SubjectConfirmation>
+        </saml2:Subject>
+        <saml2:Conditions
             NotBefore="{(issue_instant - timedelta(minutes=5)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
-            NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}">
-            <saml:AudienceRestriction>
-                <saml:Audience>urn:amazon:webservices</saml:Audience>
-            </saml:AudienceRestriction>
-        </saml:Conditions>
-        <saml:AuthnStatement
+            NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.saml2_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}">
+            <saml2:AudienceRestriction>
+                <saml2:Audience>urn:amazon:webservices</saml2:Audience>
+            </saml2:AudienceRestriction>
+        </saml2:Conditions>
+        <saml2:AuthnStatement
             AuthnInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}"
             SessionIndex="{assertion_id}">
-            <saml:AuthnContext>
-                <saml:AuthnContextClassRef>
-                    urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport
-                </saml:AuthnContextClassRef>
-            </saml:AuthnContext>
-        </saml:AuthnStatement>
-        <saml:AttributeStatement>
-            <saml:Attribute Name="https://aws.amazon.com/SAML/Attributes/Role">
-                <saml:AttributeValue xsi:type="xs:string">
+            <saml2:AuthnContext>
+                <saml2:AuthnContextClassRef>
+                    urn:oasis:names:tc:saml2:2.0:ac:classes:PasswordProtectedTransport
+                </saml2:AuthnContextClassRef>
+            </saml2:AuthnContext>
+        </saml2:AuthnStatement>
+        <saml2:AttributeStatement>
+            <saml2:Attribute Name="https://aws.amazon.com/saml">
+                <saml2:AttributeValue xsi:type="xs:string">
                     {role_arn},{self.config.IDP_ENTITY_ID}
-                </saml:AttributeValue>
-            </saml:Attribute>
-            <saml:Attribute Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName">
-                <saml:AttributeValue xsi:type="xs:string">{session_name}</saml:AttributeValue>
-            </saml:Attribute>
-            <saml:Attribute Name="https://aws.amazon.com/SAML/Attributes/SessionDuration">
-                <saml:AttributeValue xsi:type="xs:string">3600</saml:AttributeValue>
-            </saml:Attribute>
-        </saml:AttributeStatement>
-    </saml:Assertion>
-</samlp:Response>"""
+                </saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="https://aws.amazon.com">
+                <saml2:AttributeValue xsi:type="xs:string">{session_name}</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionDuration">
+                <saml2:AttributeValue xsi:type="xs:string">3600</saml2:AttributeValue>
+            </saml2:Attribute>
+        </saml2:AttributeStatement>
+    </saml2:Assertion>
+</saml2p:Response>"""
 
         # Codificar em base64
-        saml_response_encoded = base64.b64encode(saml_template.encode('utf-8')).decode('utf-8')
+        saml2_response_encoded = base64.b64encode(saml2_template.encode('utf-8')).decode('utf-8')
 
-        return saml_response_encoded
+        return saml2_response_encoded
 
     def _generate_certificates(self):
-        """Gera certificados SSL para SAML"""
+        """Gera certificados SSL para saml2"""
         try:
             # Verificar se openssl está disponível
             result = subprocess.run(['which', 'openssl'], capture_output=True, text=True)
@@ -140,7 +140,7 @@ class SAMLResponseGenerator:
             cmd_cert = [
                 'openssl', 'req', '-new', '-x509', '-key', self.config.KEY_FILE,
                 '-out', self.config.CERT_FILE, '-days', '365', '-nodes',
-                '-subj', '/CN=AWS-SAML-IdP/O=Render Deployment/C=BR'
+                '-subj', '/CN=AWS-saml2-IdP/O=Render Deployment/C=BR'
             ]
             subprocess.run(cmd_cert, check=True)
 
@@ -174,6 +174,8 @@ def get_user_role(username):
         return config.ROLE_MAPPINGS.get('admin')
     elif '@dev' in username or username.startswith('dev'):
         return config.ROLE_MAPPINGS.get('developer')
+    elif 'gujevinho@gmail.com' in username: 
+        return config.ROLE_MAPPINGS.get('admin')
     else:
         return config.ROLE_MAPPINGS.get('readonly')
 
