@@ -1,6 +1,6 @@
 import base64
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 from config import Config
 import subprocess
@@ -46,8 +46,14 @@ class samlResponseGenerator:
         if session_name is None:
             session_name = username
 
+        # Gerar timestamps em UTC - ESTA É A PARTE CRUCIAL PARA RESOLVER O FUSO
+        now_utc = datetime.now(timezone.utc) # Sempre use UTC para timestamps SAML
+        issue_instant = now_utc
+        expiration_time = now_utc + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)
+        not_before_time = now_utc - timedelta(minutes=5) # Margem de 5 minutos para clock skew
+
         # Gerar IDs únicos
-        issue_instant = datetime.utcnow()
+
         assertion_id = f'_uuid-{uuid.uuid4()}'
         response_id = f'_uuid-{uuid.uuid4()}'
         issuer = self.config.SAML_PROVIDER_NAME
