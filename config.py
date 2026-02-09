@@ -18,6 +18,7 @@ class Config:
     
     # AWS SAML Endpoint
     AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml/acs/SAMLSPH4D4VUKVI56COEHT'
+    #AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml'
     
     # ARNs das roles AWS (configurar no IAM)
     #AWS_ACCOUNT_ID = '058264482789'  # Substitua pelo seu account ID
