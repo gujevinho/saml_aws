@@ -50,10 +50,10 @@ class samlResponseGenerator:
         issue_instant = datetime.utcnow()
         assertion_id = f'_uuid-{uuid.uuid4()}'
         response_id = f'_uuid-{uuid.uuid4()}'
-        issuer = self.config.saml2_PROVIDER_NAME
+        issuer = self.config.saml_PROVIDER_NAME
 
-        # Gerar saml2 Provider ARN
-        saml2_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml2-provider/{issuer}'
+        # Gerar saml Provider ARN
+        saml_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml2-provider/{issuer}'
 
         # Template saml2 Response (sem assinatura para simplificação inicial)
         saml2_template = f"""<?xml version="1.0" encoding="UTF-8"?>
