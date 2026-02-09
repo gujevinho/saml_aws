@@ -57,8 +57,8 @@ class samlResponseGenerator:
 
         # Template saml2 Response (sem assinatura para simplificação inicial)
         saml_template = f"""<?xml version="1.0" encoding="UTF-8"?>
-<saml2p:Response xmlns:saml2p="urn:oasis:names:tc:saml2:2.0:protocol"
-                xmlns:saml2="urn:oasis:names:tc:saml2:2.0:assertion"
+<saml2p:Response xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"
+                xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"
                 ID="{response_id}"
                 Version="2.0"
                 IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
@@ -73,7 +73,7 @@ class samlResponseGenerator:
                    IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
         <saml2:Issuer>{self.config.IDP_ENTITY_ID}</saml2:Issuer>
         <saml2:Subject>
-            <saml2:NameID Format="urn:oasis:names:tc:saml2:2.0:nameid-format:persistent">
+            <saml2:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">
                 {username}
             </saml2:NameID>
             <saml2:SubjectConfirmation Method="urn:oasis:names:tc:saml2:2.0:cm:bearer">
@@ -99,7 +99,7 @@ class samlResponseGenerator:
             </saml2:AuthnContext>
         </saml2:AuthnStatement>
         <saml2:AttributeStatement>
-            <saml2:Attribute Name="https://aws.amazon.com/saml">
+            <saml2:Attribute Name="https://aws.amazon.com">
                 <saml2:AttributeValue xsi:type="xs:string">
                     {role_arn},{role_arn.replace(':role/', ':saml-provider/')}
                 </saml2:AttributeValue>
@@ -110,6 +110,9 @@ class samlResponseGenerator:
             <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionDuration">
                 <saml2:AttributeValue xsi:type="xs:string">3600</saml2:AttributeValue>
             </saml2:Attribute>
+                  <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionName">
+        <saml2:AttributeValue>{session_name}</saml2:AttributeValue>
+      </saml2:Attribute>
         </saml2:AttributeStatement>
     </saml2:Assertion>
 </saml2p:Response>"""
