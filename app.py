@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from saml_utils import SAMLResponseGenerator, validate_user_credentials, get_user_role
+from saml_utils import samlResponseGenerator, validate_user_credentials, get_user_role
 from config import Config
 import logging
 
@@ -77,7 +77,7 @@ def aws_login():
     
     try:
         # Gerar SAML Response
-        saml_gen = SAMLResponseGenerator()
+        saml_gen = samlResponseGenerator()
         saml_response = saml_gen.generate_saml_response(
             username=username,
             role_arn=role_arn,
