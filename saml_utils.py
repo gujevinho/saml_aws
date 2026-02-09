@@ -116,13 +116,13 @@ class samlResponseGenerator:
                 </saml2:AttributeValue>
             </saml2:Attribute>
             <saml2:Attribute Name="https://aws.amazon.com">
-                <saml2:AttributeValue xsi:type="xs:string">{session_name}</saml2:AttributeValue>
+                <saml2:AttributeValue xsi:type="xs:string">{username}</saml2:AttributeValue>
             </saml2:Attribute>
             <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionDuration">
                 <saml2:AttributeValue xsi:type="xs:string">3600</saml2:AttributeValue>
             </saml2:Attribute>
                   <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionName">
-        <saml2:AttributeValue>{session_name}</saml2:AttributeValue>
+        <saml2:AttributeValue>{username}</saml2:AttributeValue>
       </saml2:Attribute>
         </saml2:AttributeStatement>
     </saml2:Assertion>
