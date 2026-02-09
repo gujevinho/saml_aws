@@ -17,7 +17,7 @@ class Config:
     KEY_FILE = os.path.join(os.path.dirname(__file__), 'static', 'cert', 'idp.key')
     
     # AWS SAML Endpoint
-    AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml'
+    AWS_SAML_ENDPOINT = 'https://signin.aws.amazon.com/saml/acs/SAMLSPH4D4VUKVI56COEHT'
     
     # ARNs das roles AWS (configurar no IAM)
     #AWS_ACCOUNT_ID = '058264482789'  # Substitua pelo seu account ID
