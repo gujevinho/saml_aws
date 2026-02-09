@@ -110,7 +110,7 @@ class samlResponseGenerator:
             </saml2:AuthnContext>
         </saml2:AuthnStatement>
         <saml2:AttributeStatement>
-            <saml2:Attribute Name="https://aws.amazon.com">
+            <saml2:Attribute Name="https://aws.amazon.com/SAML/Attributes/Role">
                 <saml2:AttributeValue xsi:type="xs:string">
                     {role_arn},{role_arn.replace(':role/', ':saml-provider/')}
                 </saml2:AttributeValue>
