@@ -210,3 +210,4 @@ def validate_user_credentials(username, password):
 # e deve verificar por Config.CERT_DIR, que precisa estar DEFINIDO em config.py
 # Certifique-se de que config.py define CERT_DIR, CERT_FILE, KEY_FILE
 # Veja o exemplo de config.py fornecido anteriormente.
+# new commit
