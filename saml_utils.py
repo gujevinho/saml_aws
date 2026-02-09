@@ -115,7 +115,7 @@ class samlResponseGenerator:
                     {role_arn},{role_arn.replace(':role/', ':saml-provider/')}
                 </saml2:AttributeValue>
             </saml2:Attribute>
-            <saml2:Attribute Name="https://aws.amazon.com">
+            <saml2:Attribute Name="https://aws.amazon.com/SAML/Attributes/RoleSessionName">
                 <saml2:AttributeValue xsi:type="xs:string">{username}</saml2:AttributeValue>
             </saml2:Attribute>
             <saml2:Attribute Name="https://aws.amazon.com/saml2/Attributes/SessionDuration">
