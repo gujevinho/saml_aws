@@ -55,6 +55,11 @@ class samlResponseGenerator:
         # Gerar saml Provider ARN
         saml_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml2-provider/{issuer}'
 
+         # Formatar datas para o formato ISO 8601 (SAML espera este formato)
+        issue_instant_str = issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')
+        expiration_str = expiration_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        not_before_str = not_before_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+
         # Template saml2 Response (sem assinatura para simplificação inicial)
         saml_template = f"""<?xml version="1.0" encoding="UTF-8"?>
 <saml2p:Response xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"
@@ -78,19 +83,19 @@ class samlResponseGenerator:
             </saml2:NameID>
             <saml2:SubjectConfirmation Method="urn:oasis:names:tc:saml2:2.0:cm:bearer">
                 <saml2:SubjectConfirmationData
-                    NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
+                    NotOnOrAfter="{expiration_str}"
                     Recipient="{self.config.AWS_SAML_ENDPOINT}"/>
             </saml2:SubjectConfirmation>
         </saml2:Subject>
         <saml2:Conditions
-            NotBefore="{(issue_instant - timedelta(minutes=5)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
-            NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}">
+            NotBefore="{not_before_str}"
+            NotOnOrAfter="{expiration_str}">
             <saml2:AudienceRestriction>
                 <saml2:Audience>urn:amazon:webservices</saml2:Audience>
             </saml2:AudienceRestriction>
         </saml2:Conditions>
         <saml2:AuthnStatement
-            AuthnInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+            AuthnInstant="{issue_instant_str}"
             SessionIndex="{assertion_id}">
             <saml2:AuthnContext>
                 <saml2:AuthnContextClassRef>
