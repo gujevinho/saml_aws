@@ -73,7 +73,7 @@ class samlResponseGenerator:
                 ID="{response_id}"
                 Version="2.0"
                 IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
-    <saml2:Issuer>{self.config.IDP_ENTITY_ID}</saml2:Issuer>
+    <saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">{self.config.AWS_ACCOUNT_ID}</saml:Issuer>
     <saml2p:Status>
         <saml2p:StatusCode Value="urn:oasis:names:tc:saml2:2.0:status:Success"/>
     </saml2p:Status>
@@ -81,8 +81,8 @@ class samlResponseGenerator:
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                    ID="{assertion_id}"
                    Version="2.0"
-                   IssueInstant="{issue_instant.strftime('%Y-%m-%dT%H:%M:%SZ')}">
-        <saml2:Issuer>{self.config.IDP_ENTITY_ID}</saml2:Issuer>
+                   IssueInstant="{issue_instant_str}">
+        <saml2:Issuer>{self.config.AWS_SAML_ENDPOINT}</saml2:Issuer>
         <saml2:Subject>
             <saml2:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">
                 {username}
