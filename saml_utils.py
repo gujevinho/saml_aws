@@ -50,13 +50,13 @@ class samlResponseGenerator:
         issue_instant = datetime.utcnow()
         assertion_id = f'_uuid-{uuid.uuid4()}'
         response_id = f'_uuid-{uuid.uuid4()}'
-        issuer = self.config.saml_PROVIDER_NAME
+        issuer = self.config.SAML_PROVIDER_NAME
 
         # Gerar saml Provider ARN
         saml_provider_arn = f'arn:aws:iam::{self.config.AWS_ACCOUNT_ID}:saml2-provider/{issuer}'
 
         # Template saml2 Response (sem assinatura para simplificação inicial)
-        saml2_template = f"""<?xml version="1.0" encoding="UTF-8"?>
+        saml_template = f"""<?xml version="1.0" encoding="UTF-8"?>
 <saml2p:Response xmlns:saml2p="urn:oasis:names:tc:saml2:2.0:protocol"
                 xmlns:saml2="urn:oasis:names:tc:saml2:2.0:assertion"
                 ID="{response_id}"
@@ -101,7 +101,7 @@ class samlResponseGenerator:
         <saml2:AttributeStatement>
             <saml2:Attribute Name="https://aws.amazon.com/saml">
                 <saml2:AttributeValue xsi:type="xs:string">
-                    {role_arn},{self.config.IDP_ENTITY_ID}
+                    {role_arn},{role_arn.replace(':role/', ':saml-provider/')}
                 </saml2:AttributeValue>
             </saml2:Attribute>
             <saml2:Attribute Name="https://aws.amazon.com">
@@ -115,9 +115,9 @@ class samlResponseGenerator:
 </saml2p:Response>"""
 
         # Codificar em base64
-        saml2_response_encoded = base64.b64encode(saml2_template.encode('utf-8')).decode('utf-8')
+        saml_response_encoded = base64.b64encode(saml_template.encode('utf-8')).decode('utf-8')
 
-        return saml2_response_encoded
+        return saml_response_encoded
 
     def _generate_certificates(self):
         """Gera certificados SSL para saml2"""
