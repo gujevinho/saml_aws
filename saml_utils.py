@@ -8,8 +8,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class saml2ResponseGenerator:
-    """Gera saml2 Response para autenticação AWS"""
+class samlResponseGenerator:
+    """Gera saml Response para autenticação AWS"""
 
     def __init__(self):
         self.config = Config()
@@ -31,7 +31,7 @@ class saml2ResponseGenerator:
         except FileNotFoundError:
             raise Exception("Certificados não encontrados. Execute setup_certificates() primeiro.")
 
-    def generate_saml2_response(self, username, role_arn, session_name=None):
+    def generate_saml_response(self, username, role_arn, session_name=None):
         """
         Gera um saml2 Response válido para AWS
 
