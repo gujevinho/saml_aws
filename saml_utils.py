@@ -78,13 +78,13 @@ class samlResponseGenerator:
             </saml2:NameID>
             <saml2:SubjectConfirmation Method="urn:oasis:names:tc:saml2:2.0:cm:bearer">
                 <saml2:SubjectConfirmationData
-                    NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
+                    NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
                     Recipient="{self.config.AWS_SAML_ENDPOINT}"/>
             </saml2:SubjectConfirmation>
         </saml2:Subject>
         <saml2:Conditions
             NotBefore="{(issue_instant - timedelta(minutes=5)).strftime('%Y-%m-%dT%H:%M:%SZ')}"
-            NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}">
+            NotOnOrAfter="{(issue_instant + timedelta(minutes=self.config.SAML_EXPIRATION_MINUTES)).strftime('%Y-%m-%dT%H:%M:%SZ')}">
             <saml2:AudienceRestriction>
                 <saml2:Audience>urn:amazon:webservices</saml2:Audience>
             </saml2:AudienceRestriction>
