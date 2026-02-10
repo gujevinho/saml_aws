@@ -7,7 +7,6 @@ from datetime import datetime, timedelta, timezone
 from lxml import etree
 from signxml import XMLSigner
 from config import Config
-#teste
 
 logger = logging.getLogger(__name__)
 
