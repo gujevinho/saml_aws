@@ -10,6 +10,7 @@ class Config:
     # Configurações SAML IdP
     IDP_ENTITY_ID = 'urn:amazon:webservices'
     IDP_NAME = 'AWS-SAML-IdP'
+    ENTITY_ID = 'https://dev-api.facesign.in/api/saml/metadata/5f273bdd-d8c5-4de3-80f1-2c715fae05d0'
     
     # Certificado e chave (gerar com OpenSSL)
     CERT_DIR = os.path.join(os.path.dirname(__file__), 'static', 'cert')
